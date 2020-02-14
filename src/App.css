@@ -1,38 +1,274 @@
-.App {
-  text-align: center;
+@import url(https://fonts.googleapis.com/css?family=Quattrocento:regular,700);
+@import url(https://fonts.googleapis.com/css?family=Quattrocento+Sans:regular,italic,700,700italic);
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  cursor: none !important;
 }
 
-.App-logo {
-  height: 40vmin;
+a {
+  color: var(--mainBlack);
+  text-decoration: none;
+}
+
+:root {
+  --primaryColor: #706c61;
+  --secondaryColor: #e1f4f3;
+  --mainWhite: #f1f1f1;
+  --offWhite: #e7e7e7;
+  --mainDark: #333333;
+  --mainBlack: #0e0e0e;
+  --mainFont: "Quattrocento", sans-serif;
+  --secondFont: "Quattrocento Sans", sans-serif;
+}
+
+body {
+  color: var(--mainBlack);
+  background: var(--mainWhite);
+  font-family: var(--secondFont);
+  line-height: 1.4;
+  cursor: none !important;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--mainFont);
+}
+
+h1 {
+  font-size: 3em;
+}
+
+h2 {
+  font-size: 2em;
+}
+
+h3 {
+  font-size: 1.5em;
+}
+
+/* Cursor */
+.cursor {
+  width: 8px;
+  height: 8px;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background-color: var(--offWhite);
+  z-index: 5;
   pointer-events: none;
+  user-select: none;
+  mix-blend-mode: difference;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.cursor-follower {
+  width: 25px;
+  height: 25px;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  background-color: var(--mainDark);
+  z-index: 4;
+  border-radius: 50%;
+  pointer-events: none;
+  transition: 200ms ease-out;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.cursor-active {
+  z-index: 4;
+}
+
+.follower-active {
+  width: 80px;
+  height: 80px;
+}
+
+.follower-active::before {
+  content: "Ver detalles";
+  color: var(--offWhite);
+  font-size: 90%;
+  font-family: var(--secondFont);
+  font-weight: bold;
+  text-transform: uppercase;
+  text-align: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Navbar */
+.brand-logo {
+  font-weight: 700;
+  font-size: 2.5em;
+  font-family: var(--mainFont);
+}
+
+.navbar {
+  position: fixed;
+  padding: 0.75rem 2rem;
+  width: 100%;
+  text-align: center;
+  z-index: 2;
+}
+
+.nav-btn {
+  display: block;
+  position: absolute;
+  top: 50%;
+  transform: translate(0, -50%);
+  left: 2em;
+  width: 2.25em;
+  height: 2.25em;
+}
+
+.hamburger {
+  height: 20%;
+  width: 100%;
+  transform: translate(0%, -50%);
+  background: var(--mainBlack);
+  position: absolute;
+  top: 50%;
+  z-index: 3;
+  transition: background 0.1s;
+}
+
+.hamburger::after,
+.hamburger::before {
+  content: "";
+  display: block;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background: var(--mainBlack);
+  transition: transform 0.25s, top 0.25s;
+}
+
+.hamburger::after {
+  top: 0.7em;
+}
+
+.hamburger::before {
+  top: -0.7em;
+}
+
+.hamburger.is-open {
+  background: rgba(0, 0, 0, 0);
+}
+
+.is-open::after,
+.is-open::before {
+  top: initial;
+}
+
+.is-open::after {
+  transform: rotate(-45deg);
+}
+
+.is-open::before {
+  transform: rotate(45deg);
+}
+
+.nav-block {
+  display: block;
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  left: 0px;
+  width: 25%;
+  height: 100%;
+  background: var(--offWhite);
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  transition: left 0.25s ease-in-out;
 }
 
-.App-link {
-  color: #61dafb;
+.nav-block.is-close {
+  left: -25%;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.nav-list {
+  display: flex;
+  flex-direction: column;
+  list-style-type: none;
+}
+
+.nav-item {
+  margin-bottom: 2em;
+}
+
+.nav-link {
+  text-decoration: none;
+  font-size: 2em;
+  font-weight: 700;
+  transition: 0.2s ease color;
+}
+
+.nav-link:hover {
+  color: var(--primaryColor);
+}
+
+/* SECTION */
+.card.fashion1 {
+  grid-area: card1;
+}
+.card.fashion2 {
+  grid-area: card2;
+}
+.card.fashion3 {
+  grid-area: card3;
+}
+
+.container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.grid-container {
+  display: grid;
+  column-gap: 16px;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-areas: "card1 card2 card3";
+}
+
+.card {
+  width: 20vw;
+  height: 70vh;
+  background-size: cover;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  filter: grayscale(80%);
+  transition: filter 0.25s;
+}
+
+.card:hover {
+  filter: none;
+}
+
+.card:hover .card__title {
+  opacity: 1;
+}
+
+p.card__title {
+  margin-bottom: 1.5em;
+  color: var(--mainWhite);
+  background-color: var(--mainDark);
+  opacity: 0;
+  transition: opacity 0.5s;
+}
+
+.fashion-1 {
+  background-image: url(./media/fashion1.jpg);
+}
+.fashion-2 {
+  background-image: url(./media/fashion2.jpg);
+}
+.fashion-3 {
+  background-image: url(./media/fashion3.jpg);
 }

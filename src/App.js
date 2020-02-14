@@ -1,25 +1,53 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useRef, useMemo } from "react";
+
+import "./App.css";
+
+import Navbar from "./components/Navbar";
+import Main from "./components/Main";
+
+export const hoverContext = React.createContext();
 
 function App() {
+
+  const isHover = () => {
+    refCursor.current.classList.add("cursor-active")
+    refFollower.current.classList.add("follower-active");
+  };
+  const noHover = () => {
+    refCursor.current.classList.remove("cursor-active")
+    refFollower.current.classList.remove("follower-active");
+  };
+
+  const contextValue = {
+    isHover,
+    noHover
+  };
+  // CURSOR ANIMATION
+  let refCursor = useRef();
+  let refFollower = useRef();
+
+  document.addEventListener("mousemove", e => {
+    refCursor.current.setAttribute(
+      "style",
+      `top: ${e.pageY}px; left: ${e.pageX}px;`
+    );
+    refFollower.current.setAttribute(
+      "style",
+      `top: ${e.pageY}px; left: ${e.pageX}px;`
+    );
+  });
+
+  // CURSOR CARD ANIMATION
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <hoverContext.Provider value={contextValue}>
+      <div className="app">
+        <div ref={refCursor} className="cursor"></div>
+        <div ref={refFollower} className="cursor-follower"></div>
+        <Navbar />
+        <Main />
+      </div>
+    </hoverContext.Provider>
   );
 }
 
